@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kommunikationstastatur</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        margin: 0;
+        background-color: #f4f4f4;
+    }
+    #textfeld {
+        height: 2cm;
+        font-size: 52px;
+        margin: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+    .tastatur {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 10px;
+        padding: 10px;
+    }
+    button {
+        height: 180px;
+        font-size: 52px;
+        background-color: lightgray;
+        border: none;
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+</head>
+<body>
+<input type="text" id="textfeld" readonly>
+<div class="tastatur">
+    <!-- QWERTZ-Tastenanordnung -->
+    <script>
+        const zeilen = [
+            'QWERTZUIOP',
+            'ASDFGHJKL',
+            'YXCVBNM'
+        ];
+        const textfeld = document.getElementById('textfeld');
+
+        zeilen.forEach(zeile => {
+            zeile.split('').forEach(buchstabe => {
+                const taste = document.createElement('button');
+                taste.textContent = buchstabe;
+                taste.addEventListener('click', () => textfeld.value += buchstabe);
+                document.querySelector('.tastatur').appendChild(taste);
+            });
+            if (zeile === 'YXCVBNM') {
+                // Leertaste und Clear-Taste nur in der letzten Zeile hinzufügen
+                const spaceButton = document.createElement('button');
+                spaceButton.innerHTML = '&#x23b5;';
+                spaceButton.addEventListener('click', () => textfeld.value += ' ');
+                document.querySelector('.tastatur').appendChild(spaceButton);
+
+                const clearButton = document.createElement('button');
+                clearButton.innerHTML = '&#x2190;';
+                clearButton.addEventListener('click', () => textfeld.value = '');
+                document.querySelector('.tastatur').appendChild(clearButton);
+            }
+        });
+    </script>
+</div>
+</body>
+</html>
